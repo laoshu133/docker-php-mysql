@@ -1,10 +1,10 @@
 # docker-php-mysql
 
-PHP image with mysqli, pdo_mysql added
+PHP image with mysqli, pdo_mysql, gd added
 
 ## Versions
 
-- php: 5.6.32
+- php: 5.6.34
 
 ## Root
 
