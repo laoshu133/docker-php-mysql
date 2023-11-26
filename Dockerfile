@@ -1,20 +1,16 @@
-FROM php:5.6.34-apache
+FROM php:8.2-apache-bookworm
+# FROM mcr.microsoft.com/devcontainers/php:1-8.2-bullseye
 
-RUN apt-get update
+# Install MariaDB & extensions
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get install -y mariadb-client libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev \
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev
-RUN apt-get install -y libmcrypt-dev
+# Install php-mysql driver
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
-    docker-php-ext-install gd
-
-RUN docker-php-ext-configure mcrypt && docker-php-ext-install mcrypt
-
-RUN docker-php-ext-install mysql mysqli
-
-RUN docker-php-ext-install pdo pdo_mysql
-
-RUN docker-php-ext-install zip
+# Install php-exts
+RUN docker-php-ext-install gd
 
 
 # Clean up
